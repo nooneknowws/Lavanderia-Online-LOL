@@ -1,0 +1,17 @@
+<div class="">
+    <h2 class="text-center mb-4">Comprar Milhas</h2>
+    <form (ngSubmit)="comprarMilhas()" class="row">
+      <div class="form-group mb-3 col-6">
+        <label for="valorEmReais">Valor a comprar (R$):</label>
+        <input type="number" class="form-control" id="valorEmReais" [(ngModel)]="valorEmReais" name="valorEmReais" (input)="calcularMilhas()" min="0" required>
+      </div>
+  
+      <div class="form-group mb-3 col-6">
+        <label for="milhasCompradas">Milhas:</label>
+        <input type="number" class="form-control" id="milhasCompradas" [value]="milhasCompradas" readonly>
+      </div>
+  
+      <button type="submit" class="col-12 btn btn-primary w-100">Comprar Milhas</button>
+    </form>
+  </div>
+  

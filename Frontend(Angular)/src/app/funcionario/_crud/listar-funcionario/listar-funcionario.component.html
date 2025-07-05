@@ -1,0 +1,58 @@
+<div class="card mt-4">
+  <div class="card-header-funcionario">
+    <h5 class="mb-0">Lista de Funcionários</h5>
+  </div>
+  <div class="card-body">
+    <table class="table table-bordered table-hover">
+      <thead class="thead-light">
+        <tr>
+          <th>ID</th>
+          <th>Nome</th>
+          <th>CPF</th>
+          <th>Email</th>
+          <th>Telefone</th>
+          <th colspan="2">Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let funcionario of funcionarios">
+          <td>{{ funcionario.id }}</td>
+          <td>{{ funcionario.nome }}</td>
+          <td>{{ funcionario.cpf }}</td>
+          <td>{{ funcionario.email }}</td>
+          <td>{{ funcionario.telefone }}</td>
+          <td>
+            <span 
+              class="badge" 
+              [ngClass]="funcionario.funcStatus === 'ATIVO' ? 'text-bg-success' : 'text-bg-danger'"
+            >
+              {{ funcionario.funcStatus }}
+            </span>
+          </td>
+          <td>
+            <div class="d-flex flex-column w-100">
+              <button 
+                class="btn btn-sm btn-primary w-100 mb-1" 
+                (click)="editarFuncionario(funcionario)"
+              >
+                <i class="fa-solid fa-pen"></i> Editar
+              </button>
+              <button 
+                class="btn btn-sm w-100"
+                [ngClass]="funcionario.funcStatus === 'ATIVO' ? 'btn-danger' : 'btn-success'"
+                (click)="desativarFuncionario(funcionario)"
+              >
+                <ng-container *ngIf="funcionario.funcStatus === 'ATIVO'">
+                  <i class="fa-solid fa-xmark"></i> Desativar
+                </ng-container>
+                <ng-container *ngIf="funcionario.funcStatus !== 'ATIVO'">
+                  Ativar
+                </ng-container>
+              </button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

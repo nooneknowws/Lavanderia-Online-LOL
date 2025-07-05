@@ -1,0 +1,71 @@
+<div *ngIf="reservasFiltradas.length > 0; else vazioTemplate" class="card shadow-sm">
+    <div class="card-header-cliente">
+        <h5 class="mb-0">Check-in - Suas reservas pendentes</h5>
+    </div>
+    <div class="card-body">
+        <div class="mb-3">
+            <small class="text-muted">
+                Aqui você pode realizar o check-in para os voos pendentes. 
+                O botão de check-in estará disponível apenas para voos nas próximas 48 horas.
+                Selecione o voo desejado para prosseguir com o check-in.
+            </small>
+        </div>
+        <table class="table table-bordered table-hover">
+            <thead class="thead-light">
+                <tr>
+                    <th>Código</th>
+                    <th>Data/Hora da Partida</th>
+                    <th>Origem</th>
+                    <th>Destino</th>
+                    <th>Status Check-in</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let reserva of reservasFiltradas">
+                    <td>{{ reserva.codigoReserva }}</td>
+                    <td>
+                        {{ reserva.dataHoraPartida | date:'dd/MM/yyyy HH:mm' }}
+                        <small class="text-muted d-block">
+                            {{ reserva.dataHoraPartida | timeUntil }}
+                        </small>
+                    </td>
+                    <td>
+                        <span class="badge bg-secondary">{{ reserva.aeroportoOrigem.codigo }}</span>
+                        {{ reserva.aeroportoOrigem.nome }}
+                    </td>
+                    <td>
+                        <span class="badge bg-primary">{{ reserva.aeroportoDestino.codigo }}</span>
+                        {{ reserva.aeroportoDestino.nome }}
+                    </td>
+                    <td>
+                        <button 
+                            *ngIf="podeRealizarCheckin(reserva)"
+                            class="btn btn-success" 
+                            (click)="realizarCheckin(reserva)"
+                        >
+                            Realizar Check-in
+                        </button>
+                        <span *ngIf="!podeRealizarCheckin(reserva)" class="text-muted">
+                            Check-in disponível somente 48h antes do voo
+                        </span>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<ng-template #vazioTemplate>
+    <div class="card">
+        <div class="card-header-cliente">
+            <h5 class="mb-0">Check-in</h5>
+        </div>
+        <div class="card-body">
+            <div class="mb-3">
+                <small class="text-muted">
+                    Não há reservas pendentes no momento.
+                </small>
+            </div>
+        </div>
+    </div>
+</ng-template>

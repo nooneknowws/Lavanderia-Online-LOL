@@ -1,0 +1,89 @@
+{
+  "funcionarios": [
+    {
+      "id": "3c23",
+      "cpf": "98765432100",
+      "nome": "Funcionário",
+      "email": "funcionario@teste.com",
+      "senha": "1234",
+      "endereco": {
+        "cep": 83050214,
+        "logradouro": "Rua Osvaldo Rodrigues Caldeira",
+        "numero": 225,
+        "complemento": "",
+        "bairro": "Parque da Fonte",
+        "cidade": "São José dos Pinhais",
+        "estado": "PR"
+      },
+      "telefone": "41987654321",
+	  "ativo": true
+    }
+  ],
+  "clientes": [
+    {
+      "id": "7289",
+      "cpf": "12345678910",
+      "nome": "Cliente",
+      "email": "cliente@teste.com",
+      "senha": "1234",
+      "endereco": {
+        "cep": 82530210,
+        "logradouro": "Praça Major Fidêncio Lemos do Prado",
+        "numero": 14,
+        "complemento": "",
+        "bairro": "Tarumã",
+        "cidade": "Curitiba",
+        "estado": "PR"
+      },
+      "perfil": "Cliente",
+      "telefone": "41998765432",
+      "saldoMilhas": 0,
+      "milhas": []
+    }
+  ],
+  "milhas": [],
+  "aeroportos": [
+    {
+      "id": "1",
+      "codigo": "GRU",
+      "nome": "Aeroporto Internacional de Guarulhos",
+      "cidade": "São Paulo",
+      "estado": "SP",
+      "pais": "Brasil"
+    },
+    {
+      "id": "2",
+      "codigo": "GIG",
+      "nome": "Aeroporto Internacional do Galeão",
+      "cidade": "Rio de Janeiro",
+      "estado": "RJ",
+      "pais": "Brasil"
+    },
+    {
+      "id": "3",
+      "codigo": "BSB",
+      "nome": "Aeroporto Internacional de Brasília",
+      "cidade": "Brasília",
+      "estado": "DF",
+      "pais": "Brasil"
+    },
+    {
+      "id": "4",
+      "codigo": "POA",
+      "nome": "Aeroporto Internacional Salgado Filho",
+      "cidade": "Porto Alegre",
+      "estado": "RS",
+      "pais": "Brasil"
+    },
+    {
+      "id": "5",
+      "codigo": "CWB",
+      "nome": "Aeroporto Internacional de Curitiba",
+      "cidade": "Curitiba",
+      "estado": "PR",
+      "pais": "Brasil"
+    }
+  ],
+  "voos": [],
+  "reservas": []
+}

@@ -1,0 +1,153 @@
+      <div class="card shadow-sm">
+        <div class="card-header-cliente">
+          <h5 class="mb-0">Efetuar Reserva</h5>
+        </div>
+        <div *ngIf="!tabelaVisivel && !vooSelecionado" class="card-body">
+          <div class="mb-3">
+            <small class="text-muted">Insira o aeroporto de origem e destino, selecione o voo desejado e siga os passos para concluir a reserva.
+            Você também pode utilizar seu saldo de milhas para pagar parte ou todo o valor da passagem.</small>
+          </div>
+          <form (ngSubmit)="setAeroportos(aeroportoOrigem, aeroportoDestino)">
+            <div class="row">
+              <div class="col-6">
+                <div class="input-group mb-3">
+                  <span class="input-group-text spanStyle" id="basic-addon1">Aeroporto Origem</span>
+                  <select class="form-select selectStyle" name="aeroportoOrigem" [(ngModel)]="aeroportoOrigem" #aeroportoOrigemSelect="ngModel">
+                      <option *ngFor="let aeroporto of aeroportos" [ngValue]="aeroporto">{{ aeroporto.nome }}</option>
+                  </select>
+                </div>
+              </div>
+              <div class="col-6">
+                <div class="input-group mb-3">
+                  <span class="input-group-text spanStyle" id="basic-addon2">Aeroporto Destino</span>
+                  <select class="form-select selectStyle" name="aeroportoDestino" [(ngModel)]="aeroportoDestino" #aeroportoDestinoSelect="ngModel">
+                      <option *ngFor="let aeroporto of aeroportos" [ngValue]="aeroporto">{{ aeroporto.nome }}</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+            <div class="d-flex justify-content-center">
+              <button class="btn btn-primary col-4 btn-conf" type="submit">Buscar</button>
+            </div>
+          </form>
+        </div>
+        <div *ngIf="tabelaVisivel" class="card-body">
+          <p>Lista dos voos disponíveis entre os aeroportos:</p>
+
+          <div class="container-reserva row mb-3">
+              <p class="col-5 mb-0"><span class="badge bg-secondary me-1">{{ aeroportoOrigem?.codigo }}</span>{{ aeroportoOrigem?.nome }}</p>
+              <p class="col-2 mb-0"><i class="fas fa-chevron-right"></i></p>
+              <p class="col-5 mb-0"><span class="badge bg-secondary me-1">{{ aeroportoDestino?.codigo }}</span>{{ aeroportoDestino?.nome }}</p>
+          </div>
+
+          <table class="table table-sm table-striped">
+              <thead>
+                <tr>
+                  <th>Código</th>
+                  <th>Origem</th>
+                  <th>Destino</th>
+                  <th>Data de partida</th>
+                  <th>Preço por assento</th>
+                  <th>Ações</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let voo of voosFiltrados">
+                  <td>
+                    <span class="badge bg-secondary text-light">{{ voo.codigoVoo }}</span>
+                  </td>
+                  <td>
+                    <span class="badge bg-primary">{{ voo.origem?.codigo }}</span>
+                    {{ voo.origem?.cidade }}
+                  </td>
+                  <td>
+                    <span class="badge bg-primary">{{ voo.destino?.codigo }}</span>
+                    {{ voo.destino?.cidade }}
+                  </td>
+                  <td>
+                      {{ voo.dataHoraPartida | date: 'short'}}
+                  </td>
+                  <td>
+                      R{{ voo.valorPassagem | currency }}
+                  </td>
+                  <td>
+                      <button (click)="selecionarVoo(voo)" class="btn btn-success col-12">Selecionar</button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div *ngIf="vooSelecionado && !tabelaVisivel" class="container-reserva mt-1">
+              <h5 class="mb-4">Detalhes do voo selecionado</h5>
+
+              <table class="table table-bordered mb-4">
+                <tbody>
+                  <tr>
+                    <th scope="row">Voo</th>
+                    <td><span class="badge bg-secondary">{{ vooSelecionado.codigoVoo }}</span> de {{  vooSelecionado.origem?.codigo}} para {{ vooSelecionado.destino?.codigo }}</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Preço por assento</th>
+                    <td>R{{ vooSelecionado.valorPassagem | currency }}</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Total de assentos</th>
+                    <td>{{ vooSelecionado.quantidadeAssentos }}</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Assentos ocupados</th>
+                    <td>{{ vooSelecionado.quantidadePassageiros }}</td>
+                  </tr>
+                </tbody>
+              </table>
+
+              <hr class="my-3">
+
+              <div class="row mb-3">
+                <div class="col-md-6">
+                  <label for="quantidadePassagens" class="form-label fw-bold">Quantidade de passagens:</label>
+                  <input id="quantidadePassagens" type="number" class="form-control" [(ngModel)]="quantidadePassagens" (input)="calcularValorTotal()" />
+                </div>
+                <div class="col-md-6">
+                  <label for="milhasUsadas" class="form-label fw-bold">Milhas a serem usadas (Saldo: {{ saldoMilhas }}):</label>
+                  <input id="milhasUsadas" type="number" class="form-control" [(ngModel)]="milhasUsadas" (input)="calcularValorTotal()" />
+                </div>
+              </div>
+
+              <table class="table table-striped">
+                <tbody>
+                  <tr>
+                    <th scope="row">Valor total</th>
+                    <td>R{{ valorTotal | currency }}</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Milhas necessárias</th>
+                    <td>{{ milhasNecessarias }}</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Valor a ser pago</th>
+                    <td>R{{ valorAPagar | currency }}</td>
+                  </tr>
+                </tbody>
+              </table>
+
+              <div *ngIf="isLoading" class="position-fixed top-0 start-0 w-100 h-100 d-flex justify-content-center align-items-center" 
+                  style="background-color: rgba(0,0,0,0.5); z-index: 1050;">
+                <div class="spinner-border text-light" role="status" style="width: 3rem; height: 3rem;">
+                  <span class="visually-hidden">Carregando...</span>
+                </div>
+              </div>
+
+              <div class="d-grid gap-2 mb-3">
+                <button (click)="confirmarReserva()" 
+                        class="btn btn-success" 
+                        [disabled]="isLoading">
+                  <span *ngIf="!isLoading">Confirmar e Efetuar Pagamento</span>
+                  <span *ngIf="isLoading">
+                    <span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+                    Processando...
+                  </span>
+                </button>
+              </div>
+            </div>
+          </div>

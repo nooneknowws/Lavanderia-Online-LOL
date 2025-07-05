@@ -1,0 +1,64 @@
+<div class="card mt-4">
+    <div class="card-header-funcionario">
+        <h5 class="mb-0">Cadastrar Voo</h5>
+    </div>
+    <div class="card-body">
+        <div class="form-container-funcionario d-flex justify-content-center mt-3">
+            <div class="form-wrapper">
+                <form (ngSubmit)="cadastrarVoo()">
+
+                    <div class="input-group mb-2">
+                        <div class="form-floating w-50">
+                            <input type="text" class="form-control" id="floatingCodigoVoo" 
+                                   placeholder="Código do Voo" name="codigoVoo" 
+                                   [(ngModel)]="novoVoo.codigoVoo" required>
+                            <label for="floatingCodigoVoo">Código do Voo</label>
+                        </div>
+                        <button class="btn btn-secondary" type="button" (click)="gerarCodigoVoo()">
+                            Gerar Código
+                        </button>
+                    </div>
+
+                    <div class="form-floating mb-2">
+                        <input type="datetime-local" class="form-control" id="floatingDataHora" placeholder="Data/Hora de Partida" name="dataHora" [(ngModel)]="novoVoo.dataHoraPartida" required>
+                        <label for="floatingDataHora">Data/Hora de Partida</label>
+                    </div>
+
+                    <div class="form-floating mb-2">
+                        <select id="origem" class="form-select" [(ngModel)]="novoVoo.origem" name="origem" required>
+                            <option *ngFor="let aeroporto of aeroportos" [ngValue]="aeroporto">{{ aeroporto.codigo }} - {{ aeroporto.nome }}</option>
+                        </select>
+                        <label for="origem">Origem</label>
+                    </div>
+
+                    <div class="form-floating mb-2">
+                        <select id="destino" class="form-select" [(ngModel)]="novoVoo.destino" name="destino" required>
+                            <option *ngFor="let aeroporto of aeroportos" [ngValue]="aeroporto">{{ aeroporto.codigo }} - {{ aeroporto.nome }}</option>
+                        </select>
+                        <label for="destino">Destino</label>
+                    </div>
+
+                    <div class="input-group mb-2">
+                        <div class="form-floating w-50">
+                            <input type="number" class="form-control" id="floatingValorPassagem" placeholder="Valor da Passagem" name="valorPassagem" [(ngModel)]="novoVoo.valorPassagem" required>
+                            <label for="floatingValorPassagem">Valor da Passagem (R$)</label>
+                        </div>
+                        <div class="form-floating w-50">
+                            <input type="number" class="form-control" id="floatingQuantidadeAssentos" placeholder="Assentos" name="quantidadeAssentos" [(ngModel)]="novoVoo.quantidadeAssentos" required>
+                            <label for="floatingQuantidadeAssentos">Assentos</label>
+                        </div>
+                    </div>
+
+                    <button class="w-100 btn btn-lg btn-primary mb-2" type="submit">Cadastrar Voo</button>
+
+                    <div *ngIf="errorMessage" class="alert alert-danger mt-3" role="alert">
+                        {{ errorMessage }}
+                    </div>
+                    <div *ngIf="successMessage" class="alert alert-success mt-3" role="alert">
+                        {{ successMessage }}
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,51 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-light p-2">
+    <a class="navbar-brand logo" href="/cliente"> <i class="fas fa-plane mx-3"></i> Fly High </a>
+    <button
+      class="navbar-toggler"
+      type="button"
+      data-toggle="collapse"
+      data-target="#navbarNav"
+      aria-controls="navbarNav"
+      aria-expanded="false"
+      aria-label="Toggle navigation"
+    >
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav">
+        <li class="nav-item active">
+          <a class="nav-link" routerLink="/cliente">
+            <i class="fas fa-home icon"></i> Home
+          </a>
+        </li>
+
+        <ng-container>
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                <i class="fas fa-dollar-sign icon"></i> Milhas
+              </a>
+              <ul class="dropdown-menu">
+                <li><a class="dropdown-item" routerLink="/cliente/comprar-milhas">Comprar milhas</a></li>
+                <li><a class="dropdown-item" routerLink="/cliente/extrato-milhas">Consultar extrato</a></li>
+              </ul>
+            </li>
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                <i class="fas fa-ticket-alt icon"></i> Reservas
+              </a>
+              <ul class="dropdown-menu">
+                <li><a class="dropdown-item" routerLink="/cliente/consultar-reserva">Consultar reserva</a></li>
+                <li><a class="dropdown-item" routerLink="/cliente/efetuar-reserva">Efetuar reserva</a></li>
+              </ul>
+            </li>
+
+            <li class="nav-item">
+              <a class="nav-link" routerLink="/cliente/fazer-checkin">
+                <i class="fas fa-check icon"></i> Check-in
+              </a>
+            </li>
+        </ng-container>
+
+      </ul>
+    </div>
+  </nav>

@@ -1,0 +1,62 @@
+<ng-container *ngIf="user != null; else non_authorized">
+  <div class="card" *ngIf="!voo">
+    <div class="card-header-funcionario">
+      <h5 class="mb-0">Cancelar Voo</h5>
+    </div>
+
+    <div class="card-body">
+      <p>Digite o código do voo:</p>
+      <div class="input-group mb-3">
+        <input type="text" class="form-control" [(ngModel)]="codigoVooInput" 
+               placeholder="Código do voo" [disabled]="loading">
+        <button class="btn btn-primary" (click)="getVoo(codigoVooInput)" 
+                [disabled]="!codigoVooInput || loading">
+          <span *ngIf="loading" class="spinner-border spinner-border-sm me-1"></span>
+          Consultar
+        </button>
+      </div>
+
+      <div class="alert alert-danger" *ngIf="errorMessage" role="alert">
+        {{ errorMessage }}
+      </div>
+    </div>
+  </div>
+
+  <div class="card shadow-sm" *ngIf="voo">
+    <div class="card-header-funcionario">
+      <h5 class="mb-0">
+        Voo {{ voo.codigoVoo }}
+        <span class="ms-1 badge" [ngClass]="{
+          'bg-secondary': voo.status === 'CONFIRMADO',
+          'bg-success': voo.status === 'REALIZADO',
+          'bg-danger': voo.status === 'CANCELADO'
+        }">
+          {{ voo.status }}
+        </span>
+      </h5>
+    </div>
+
+    <div class="card-body">
+      <p><strong>Data/Hora de Partida:</strong> {{ voo.dataHoraPartida | date:'short' }}</p>
+      <p><strong>Origem:</strong> {{ voo.origem?.nome }} ({{ voo.origem?.codigo }})</p>
+      <p><strong>Destino:</strong> {{ voo.destino?.nome }} ({{ voo.destino?.codigo }})</p>
+      <p><strong>Lotação:</strong> {{ voo.quantidadePassageiros }}/{{ voo.quantidadeAssentos }} assentos</p>
+
+      <button class="btn btn-danger" (click)="cancelarVoo()" 
+              [disabled]="loading || voo.status == 'CONFIRMADO'">
+        <span *ngIf="loading" class="spinner-border spinner-border-sm me-1"></span>
+        Confirmar Cancelamento
+      </button>
+    </div>
+  </div>
+</ng-container>
+
+<ng-template #non_authorized>
+  <div class="alert alert-danger" role="alert">
+    <h4 class="alert-heading">Acesso não autorizado!</h4>
+    <p>Você não tem permissão para acessar esta página.</p>
+    <hr>
+    <p class="mb-0">Esta é uma funcionalidade disponível apenas para funcionários. 
+    Por favor, verifique suas permissões e tente novamente mais tarde.</p>
+  </div>
+</ng-template>

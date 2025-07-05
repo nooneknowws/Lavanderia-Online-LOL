@@ -1,0 +1,14 @@
+.table thead th {
+    background-color: #e9ecef;
+    text-align: left;
+    padding: 10px;
+    font-size: 14px;
+    color: #495057;
+}
+
+.table tbody tr td {
+    padding: 10px;
+    font-size: 14px;
+    color: #495057;
+}
+

@@ -1,0 +1,54 @@
+<div class="" *ngIf="!loading && reserva">
+    <div class="card">
+        <div class="card-header-cliente">
+            <h5 class="mb-0">Cancelar reserva</h5>
+            <span>Voo {{ reserva.codigoVoo}}</span>
+        </div>
+        <div class="card-body">
+            <p><strong>Data/Hora:</strong> {{ reserva.dataHora | date:'dd/MM/yyyy HH:mm' }}</p>
+
+            <table class="table table-sm table-striped">
+                <thead>
+                    <th>Origem</th>
+                    <th>Destino</th>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            <span class="badge bg-secondary text-light">{{ reserva.aeroportoOrigem.codigo }}</span>
+                            {{ reserva.aeroportoOrigem.nome }}
+                        </td>
+                        <td>
+                            <span class="badge bg-primary text-light">{{ reserva.aeroportoDestino.codigo }}</span>
+                            {{ reserva.aeroportoDestino.nome }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            {{ reserva.aeroportoOrigem.cidade }}, {{ reserva.aeroportoOrigem.estado }}, {{ reserva.aeroportoOrigem.pais }}
+                        </td>
+                        <td>
+                            {{ reserva.aeroportoDestino.cidade }}, {{ reserva.aeroportoDestino.estado }}, {{ reserva.aeroportoDestino.pais }}
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <p><strong>Valor:</strong> {{ reserva.valor | currency:'BRL':'symbol' }}</p>
+            <p><strong>Milhas gastas:</strong> {{ reserva.milhas }}</p>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header-cliente">
+            <h5 class="mb-0">Confirmação</h5>
+        </div>
+        <div class="card-body">
+            <h2 class="text-center mb-4">Confirma o cancelamento da reserva acima?</h2>
+            <div class="d-flex justify-content-evenly">
+                <button class="btn btn-danger col-4" (click)="cancelarReserva(reserva!)">Cancelar</button>
+                <button class="btn btn-secondary col-4" (click)="voltar()">Voltar</button>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,220 @@
+<!-- Main Container -->
+<div class="container-fluid py-4">
+  <!-- Authenticated User View -->
+  <div *ngIf="user != null; else non_authorized">
+    <!-- Header Section -->
+    <header class="d-flex justify-content-between align-items-center mb-4">
+      <h2 class="cliente m-0">Bem-vindo, {{ cliente.nome }}</h2>
+      <button class="btn btn-danger d-flex align-items-center gap-2" (click)="logout()">
+        <i class="fa fa-sign-out"></i>
+        Logout
+      </button>
+    </header>
+
+    <!-- Main Content Grid -->
+    <div class="row g-4">
+      <!-- Sidebar Navigation -->
+      <div class="col-md-3">
+        <div class="card shadow-sm">
+          <div class="card-header-cliente">
+            <h5 class="mb-0">Menu</h5>
+          </div>
+          
+          <ul class="list-group list-group-flush">
+            <!-- Reservas Section -->
+            <li class="list-group-item">
+              <div class="sidebar-section">
+                <h5 class="sidebar-title">
+                  <i class="fa fa-plane fa-icon"></i>
+                  Reservas
+                </h5>
+                <ul class="list-unstyled ps-3 mt-2">
+                  <li class="mb-2">
+                    <a [routerLink]="['/cliente/efetuar-reserva']" class="nav-link-cliente">
+                      <i class="fa fa-calendar fa-icon"></i>
+                      Efetuar Reserva
+                    </a>
+                  </li>
+                  <li>
+                    <a [routerLink]="['/cliente/consultar-reserva']" class="nav-link-cliente">
+                      <i class="fa fa-address-book"></i>
+                      Consultar Reserva
+                    </a>
+                  </li>
+                </ul>
+              </div>
+            </li>
+
+            <!-- Milhas Section -->
+            <li class="list-group-item">
+              <div class="sidebar-section">
+                <h5 class="sidebar-title">
+                  <i class="fa fa-money-bill fa-icon"></i>
+                  Milhas
+                </h5>
+                <ul class="list-unstyled ps-3 mt-2">
+                  <li class="mb-2">
+                    <a [routerLink]="['/cliente/comprar-milhas']" class="nav-link-cliente">
+                      <i class="fa fa-money-bill-transfer fa-icon"></i>
+                      Comprar Milhas
+                    </a>
+                  </li>
+                  <li>
+                    <a [routerLink]="['/cliente/extrato-milhas']" class="nav-link-cliente">
+                      <i class="fa fa-file-invoice fa-icon"></i>
+                      Consultar Extrato
+                    </a>
+                  </li>
+                </ul>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Main Content Area -->
+      <div class="col-md-9">
+        <!-- Miles Card -->
+        <div class="card shadow-sm mb-4">
+          <div class="card-header-cliente">
+            <h5 class="mb-0 d-flex align-items-center gap-2">
+              <i class="fa fa-coins"></i>
+              Suas Milhas: 
+              <span class="badge bg-primary">{{ cliente.saldoMilhas | number }}</span>
+            </h5>
+          </div>
+        </div>
+
+        <!-- Reservations Section -->
+        <ng-container *ngIf="isLoading; else reservationsContent">
+          <!-- Loading State -->
+          <div class="card shadow-sm">
+            <div class="card-header-cliente">
+              <h5 class="mb-0">Carregando Reservas...</h5>
+            </div>
+            <div class="card-body">
+              <div class="d-flex align-items-center justify-content-center p-4">
+                <div class="spinner-border text-primary me-2" role="status">
+                  <span class="visually-hidden">Carregando...</span>
+                </div>
+                <span>Buscando suas reservas...</span>
+              </div>
+            </div>
+          </div>
+        </ng-container>
+
+        <!-- Reservations Content -->
+        <ng-template #reservationsContent>
+          <div class="card shadow-sm">
+            <div class="card-header-cliente">
+              <h5 class="mb-0">
+                <i class="fa fa-list me-2"></i>
+                Suas Reservas
+              </h5>
+            </div>
+            <div class="card-body">
+              <ng-container *ngIf="reservas.length > 0; else vazioTemplate">
+                <div class="table-responsive">
+                  <table class="table table-hover table-striped">
+                    <thead class="table-light">
+                      <tr>
+                        <th>Código</th>
+                        <th>Voo</th>
+                        <th>Data/Hora</th>
+                        <th>Origem</th>
+                        <th>Destino</th>
+                        <th>Status</th>
+                        <th>Ações</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let reserva of reservas">
+                        <td>
+                          <span class="badge bg-secondary">{{ reserva.codigoReserva }}</span>
+                        </td>
+                        <td>
+                          <span class="badge bg-dark">{{ reserva.codigoVoo }}</span>
+                        </td>
+                        <td>{{ reserva.dataHora | date:'dd/MM/yyyy HH:mm' }}</td>
+                        <td>
+                          <span class="badge bg-secondary">{{ reserva.aeroportoOrigem.codigo }}</span>
+                        </td>
+                        <td>
+                          <span class="badge bg-primary">{{ reserva.aeroportoDestino.codigo }}</span>
+                        </td>
+                        <td>
+                          <span class="badge" [ngClass]="{
+                            'bg-secondary': reserva.status === e.PENDENTE,
+                            'bg-success': reserva.status === e.CONFIRMADO,
+                            'bg-danger': reserva.status === e.CANCELADO,
+                            'bg-info': reserva.status === e.EMBARCADO,
+                            'bg-primary': reserva.status === e.REALIZADO,
+                            'bg-warning': reserva.status === e.NAOREALIZADO
+                          }">
+                            {{ reserva.status }}
+                          </span>
+                        </td>
+                        <td>
+                          <div class="d-flex gap-2">
+                            <a [routerLink]="['/cliente/detalhe-reserva', reserva.id]"
+                               class="btn btn-sm btn-outline-primary">
+                              <i class="fas fa-info-circle"></i>
+                              Detalhes
+                            </a>
+                            <button *ngIf="reserva.status === e.PENDENTE"
+                                    class="btn btn-sm btn-danger"
+                                    (click)="cancelarReserva(reserva)">
+                              <i class="fas fa-times-circle"></i>
+                              Cancelar
+                            </button>
+                          </div>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </ng-container>
+            </div>
+          </div>
+        </ng-template>
+        <ng-template #vazioTemplate>
+          <div class="text-center py-5">
+            <i class="fas fa-plane-slash fa-3x text-muted mb-3"></i>
+            <h5 class="text-muted">Nenhuma Reserva Encontrada</h5>
+            <p class="text-muted mb-3">Você ainda não possui reservas cadastradas.</p>
+            <a [routerLink]="['/cliente/efetuar-reserva']" class="btn btn-primary">
+              <i class="fas fa-plus-circle me-2"></i>
+              Fazer Nova Reserva
+            </a>
+          </div>
+        </ng-template>
+      </div>
+    </div>
+  </div>
+
+  <!-- Non-authorized Template -->
+  <ng-template #non_authorized>
+    <div class="row justify-content-center">
+      <div class="col-md-6">
+        <div class="alert alert-danger" role="alert">
+          <div class="text-center mb-3">
+            <i class="fas fa-exclamation-triangle fa-3x"></i>
+          </div>
+          <h4 class="alert-heading text-center">Acesso não autorizado</h4>
+          <p class="text-center">Você precisa estar logado para acessar esta área.</p>
+          <hr>
+          <div class="d-flex justify-content-center gap-3">
+            <a routerLink="/login" class="btn btn-primary">
+              <i class="fas fa-sign-in-alt me-2"></i>
+              Fazer Login
+            </a>
+            <a routerLink="/cadastro" class="btn btn-outline-primary">
+              <i class="fas fa-user-plus me-2"></i>
+              Cadastrar
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </ng-template>
+</div>

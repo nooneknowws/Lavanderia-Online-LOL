@@ -1,0 +1,34 @@
+<div class="card">
+  <div class="card-header-cliente">
+    <h5 class="mb-0">Comprar Milhas</h5>
+  </div>
+  <div class="card-body">
+    <h5 class="card-title">Saldo atual: {{ cliente?.saldoMilhas | currency:'BRL':'':'1.2-2':'pt-BR' }} Milhas</h5>
+    <div class="mb-3">
+      <small class="text-muted">
+        Aqui você pode comprar milhas para utilizar em suas reservas de voo. A taxa de conversão é de 1 milha por R$ 5,00. Ao realizar a compra, um registro detalhado da transação, incluindo data/hora, valor em reais e quantidade de milhas adquiridas estará disponível no seu extrato de milhas.
+      </small>
+    </div>
+    <form (ngSubmit)="comprarMilhas()" class="row">
+      <div class="form-group mb-3 col-6">
+        <label for="valorEmReais">Valor a comprar (R$):</label>
+        <input type="number" class="form-control" id="valorEmReais" [(ngModel)]="valorEmReais" name="valorEmReais" (input)="calcularMilhas()" placeholder="R$ 00,00" min="0" [value]="''"  required>
+      </div>
+
+      <div class="form-group mb-3 col-6">
+        <label for="milhasCompradas">Milhas:</label>
+        <input 
+          type="text" 
+          class="form-control" 
+          id="milhasCompradas" 
+          [value]="milhasCompradas | currency:'BRL':'symbol':'1.2-2':'pt-BR'" 
+          readonly
+        >
+      </div>
+
+      <div class="d-flex justify-content-center">
+        <button type="submit" class="col-6 mb-5 btn btn-primary btn-conf">Comprar Milhas</button>
+      </div>
+    </form>
+  </div>
+</div>

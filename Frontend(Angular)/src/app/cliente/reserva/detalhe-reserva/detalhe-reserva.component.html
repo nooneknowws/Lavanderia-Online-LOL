@@ -1,0 +1,99 @@
+<div *ngIf="user != null; else non_authorized">
+    <div class="" *ngIf="loading">
+        <p>Carregando detalhes da reserva...</p>
+    </div>
+
+    <div class="" *ngIf="!loading && reserva">
+        <div class="card shadow-sm">
+            <div class="card-header-cliente">
+                <h5 class="mb-0">Reserva #{{ reserva.id }}</h5>
+                <h5 class="mb-0">Código: {{ reserva.codigoReserva }}</h5>
+                <span class="ms-1 badge"
+                [ngClass]="{
+                    'text-bg-secondary': reserva.status === e.PENDENTE,
+                    'text-bg-success': reserva.status === e.CONFIRMADO,
+                    'text-bg-danger': reserva.status === e.CANCELADO,
+                    'text-bg-info': reserva.status === e.EMBARCADO
+                }">
+                {{ reserva.status }}
+                </span>
+            </div>
+            <div class="card-body">
+                <p><strong>Data/Hora:</strong> {{ reserva.dataHora | date:'dd/MM/yyyy HH:mm' }}</p>
+
+                <table class="table table-sm table-striped">
+                    <thead>
+                        <th>Origem</th>
+                        <th>Destino</th>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <span class="badge bg-secondary text-light">{{ reserva.aeroportoOrigem.codigo }}</span>
+                                {{ reserva.aeroportoOrigem.nome }}
+                            </td>
+                            <td>
+                                <span class="badge bg-primary text-light">{{ reserva.aeroportoDestino.codigo }}</span>
+                                {{ reserva.aeroportoDestino.nome }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                {{ reserva.aeroportoOrigem.cidade }}, {{ reserva.aeroportoOrigem.estado }}, {{ reserva.aeroportoOrigem.pais }}
+                            </td>
+                            <td>
+                                {{ reserva.aeroportoDestino.cidade }}, {{ reserva.aeroportoDestino.estado }}, {{ reserva.aeroportoDestino.pais }}
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <p><strong>Valor:</strong> {{ reserva.valor | currency:'BRL':'symbol' }}</p>
+                <p><strong>Milhas gastas:</strong> {{ reserva.milhas }}</p>
+                <div class="mt-4">
+                    <h6 class="mb-3">Histórico de Alterações</h6>
+                    <table class="table table-sm table-bordered">
+                        <thead class="table-light">
+                            <tr>
+                                <th>Data/Hora</th>
+                                <th>Estado Anterior</th>
+                                <th>Novo Estado</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let historico of reserva.historicoAlteracaoEstado">
+                                <td>{{ historico.dataHoraAlteracao | date:'dd/MM/yyyy HH:mm' }}</td>
+                                <td>
+                                    <span class="badge" [ngClass]="getStatusClass(historico.estadoOrigem)">
+                                        {{ historico.estadoOrigem || 'Inicial' }}
+                                    </span>
+                                </td>
+                                <td>
+                                    <span class="badge" [ngClass]="getStatusClass(historico.estadoDestino)">
+                                        {{ historico.estadoDestino }}
+                                    </span>
+                                </td>
+                            </tr>
+                            <tr *ngIf="!reserva.historicoAlteracaoEstado?.length">
+                                <td colspan="3" class="text-center">Nenhuma alteração de estado registrada</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container mt-5" *ngIf="!loading && !reserva">
+        <p class="text-danger">Nenhuma reserva encontrada.</p>
+    </div>
+</div>
+
+<ng-template #non_authorized>
+    <div class="alert alert-danger" role="alert">
+        <h4 class="alert-heading">Acesso não cadastrado!</h4>
+        <p>Parece que você não realizou seu login.</p>
+        <hr>
+        <p class="mb-0">Por favor, realize o login ou cadastre-se no sistema.</p>
+    </div>
+</ng-template>

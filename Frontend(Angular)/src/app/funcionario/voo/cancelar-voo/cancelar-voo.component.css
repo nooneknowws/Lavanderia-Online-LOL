@@ -1,0 +1,64 @@
+/* Estilo do cartão de cancelamento de voo */
+.cancel-flight-card {
+    border-radius: 10px;
+    box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.1);
+    max-width: 600px;
+    margin: 20px auto;
+    background-color: white;
+  }
+  
+  /* Cabeçalho do cartão */
+  .cancel-flight-card .card-header {
+    font-size: 20px;
+    font-weight: bold;
+    background-color: #ffc107; /* Amarelo (aviso) */
+    color: #333;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    text-align: center;
+    padding: 15px;
+  }
+  
+  /* Título da seção */
+  .cancel-flight-card .card-title {
+    font-family: 'Arial', sans-serif;
+    font-size: 22px;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 20px;
+    text-align: left;
+  }
+  
+  /* Texto de descrição */
+  .cancel-flight-card .card-text {
+    font-size: 16px;
+    color: #666;
+    margin-bottom: 20px;
+  }
+  
+  /* Campo de entrada de número do voo */
+  .cancel-flight-card .form-group {
+    margin-bottom: 15px;
+  }
+  
+  .cancel-flight-card .form-control {
+    border-radius: 5px;
+    padding: 10px;
+    font-size: 16px;
+    width: 100%;
+    box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.05);
+    border: 1px solid #ddd;
+  }
+  
+  /* Botão de confirmação */
+  .cancel-flight-card .btn-danger {
+    background-color: #dc3545;
+    border-radius: 5px;
+    font-size: 18px;
+    font-weight: bold;
+  }
+  
+  .cancel-flight-card .btn-danger:hover {
+    background-color: #c82333;
+  }
+  

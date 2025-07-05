@@ -1,0 +1,287 @@
+<div class="background-image">
+  <div class="form-container d-flex justify-content-center">
+    <div class="form-wrapper">
+      <div *ngIf="isRegistered" class="alert alert-success">
+        Cadastro realizado com sucesso. <a [routerLink]="['/login']">Login</a>.
+      </div>
+
+      <form *ngIf="!isRegistered" (ngSubmit)="onSubmit(f)" #f="ngForm">
+        <h1 class="h3 mb-3 fw-normal text-center">Cadastro</h1>
+
+        <div class="input-group mb-2">
+          <div class="form-floating w-50">
+            <input
+              type="text"
+              class="form-control"
+              id="floatingNome"
+              placeholder="Nome"
+              name="nome"
+              [(ngModel)]="form.nome"
+              required
+              #nome="ngModel"
+              [ngClass]="{ 'is-invalid': f.submitted && nome.errors }"
+            />
+            <label for="floatingNome">Nome</label>
+            <div *ngIf="nome.errors && f.submitted" class="invalid-feedback">
+              O nome é obrigatório!
+            </div>
+          </div>
+          <div class="form-floating w-50">
+            <input
+              type="text"
+              class="form-control"
+              id="floatingCpf"
+              placeholder="CPF"
+              name="cpf"
+              [(ngModel)]="form.cpf"
+              mask="000.000.000-00"
+              required
+              #cpf="ngModel"
+              [ngClass]="{
+                'is-invalid': (f.submitted && cpf.errors) || cpfInvalido
+              }"
+            />
+            <label for="floatingCpf">CPF</label>
+            <div
+              *ngIf="(cpf.errors && f.submitted) || cpfInvalido"
+              class="invalid-feedback"
+            >
+              <div *ngIf="cpf.errors?.['required']">O CPF é obrigatório!</div>
+              <div *ngIf="cpfInvalido">CPF inválido!</div>
+            </div>
+          </div>
+
+          <div class="form-group mb-2">
+            <div
+              *ngIf="f.submitted && isRegistrationFailed"
+              class="alert alert-danger"
+              role="alert"
+            >
+              {{ errorMessage }}
+            </div>
+          </div>
+        </div>
+
+        <div class="form-floating mb-2">
+          <input
+            type="email"
+            class="form-control"
+            id="floatingEmail"
+            placeholder="nome@exemplo.com"
+            name="email"
+            [(ngModel)]="form.email"
+            required
+            #email="ngModel"
+            [ngClass]="{ 'is-invalid': f.submitted && email.errors }"
+          />
+          <label for="floatingEmail">Email</label>
+          <div *ngIf="email.errors && f.submitted" class="invalid-feedback">
+            O email é obrigatório!
+          </div>
+        </div>
+
+        <div class="form-floating mb-2">
+          <input
+            type="text"
+            class="form-control"
+            id="floatingTelefone"
+            placeholder="Telefone"
+            name="telefone"
+            [(ngModel)]="form.telefone"
+            mask="(00) 00000-0000"
+            required
+            #telefone="ngModel"
+            [ngClass]="{ 'is-invalid': f.submitted && telefone.errors }"
+          />
+          <label for="floatingTelefone">Telefone</label>
+          <div *ngIf="telefone.errors && f.submitted" class="invalid-feedback">
+            O telefone é obrigatório!
+          </div>
+        </div>
+
+        <hr class="my-3" />
+
+        <div class="input-group mb-2">
+          <div class="form-floating w-75">
+            <input
+              type="text"
+              class="form-control"
+              id="floatingCep"
+              placeholder="CEP"
+              name="cep"
+              [(ngModel)]="form.endereco.cep"
+              mask="00000-000"
+              required
+              #cep="ngModel"
+              [ngClass]="{
+                'is-invalid':
+                  f.submitted && (cep.errors || cepInvalido || erroTimeout)
+              }"
+            />
+            <label for="floatingCep">CEP</label>
+            <div *ngIf="cep.errors && f.submitted" class="invalid-feedback">
+              O CEP é obrigatório!
+            </div>
+            <div *ngIf="cepInvalido && f.submitted" class="invalid-feedback">
+              CEP inválido ou não encontrado!
+            </div>
+            <div *ngIf="erroTimeout && f.submitted" class="invalid-feedback">
+              Tempo esgotado ao buscar o CEP. Tente novamente mais tarde!
+            </div>
+          </div>
+          <button
+            type="button"
+            class="btn btn-primary w-25"
+            (click)="buscarCep()"
+            [disabled]="isLoadingCep"
+          >
+            <span
+              *ngIf="isLoadingCep"
+              class="spinner-border spinner-border-sm me-1"
+              role="status"
+              aria-hidden="true"
+            ></span>
+            {{ isLoadingCep ? "Buscando..." : "Buscar" }}
+          </button>
+        </div>
+
+        <div class="input-group mb-2">
+          <div class="form-floating w-75">
+            <input
+              type="text"
+              class="form-control"
+              id="floatingLogradouro"
+              placeholder="Logradouro"
+              name="logradouro"
+              [(ngModel)]="form.endereco.logradouro"
+              required
+              #logradouro="ngModel"
+              [ngClass]="{ 'is-invalid': f.submitted && logradouro.errors }"
+            />
+            <label for="floatingLogradouro">Logradouro</label>
+            <div
+              *ngIf="logradouro.errors && f.submitted"
+              class="invalid-feedback"
+            >
+              O Logradouro é obrigatório!
+            </div>
+          </div>
+
+          <div class="form-floating w-25">
+            <input
+              type="number"
+              class="form-control"
+              id="floatingNumero"
+              placeholder="Número"
+              name="numero"
+              [(ngModel)]="form.endereco.numero"
+              required
+              #numero="ngModel"
+              [ngClass]="{ 'is-invalid': f.submitted && numero.errors }"
+            />
+            <label for="floatingNumero">Número</label>
+            <div *ngIf="numero.errors && f.submitted" class="invalid-feedback">
+              O número é obrigatório!
+            </div>
+          </div>
+        </div>
+
+        <div class="input-group mb-2">
+          <div class="form-floating w-50">
+            <input
+              type="text"
+              class="form-control"
+              id="floatingComplemento"
+              placeholder="Complemento"
+              name="complemento"
+              [(ngModel)]="form.endereco.complemento"
+              #complemento="ngModel"
+            />
+            <label for="floatingComplemento">Complemento</label>
+          </div>
+          <div class="form-floating w-50">
+            <input
+              type="text"
+              class="form-control"
+              id="floatingBairro"
+              placeholder="Bairro"
+              name="bairro"
+              [(ngModel)]="form.endereco.bairro"
+              #bairro="ngModel"
+            />
+            <label for="floatingBairro">Bairro</label>
+          </div>
+        </div>
+
+        <div class="input-group mb-2">
+          <div class="form-floating w-75">
+            <input
+              type="text"
+              class="form-control"
+              id="floatingCidade"
+              placeholder="Cidade"
+              name="cidade"
+              [(ngModel)]="form.endereco.cidade"
+              required
+              #cidade="ngModel"
+              [ngClass]="{ 'is-invalid': f.submitted && cidade.errors }"
+            />
+            <label for="floatingCidade">Cidade</label>
+            <div *ngIf="cidade.errors && f.submitted" class="invalid-feedback">
+              A cidade é obrigatória!
+            </div>
+          </div>
+          <div class="form-floating w-25">
+            <select
+              class="form-select"
+              id="floatingEstado"
+              name="estado"
+              [(ngModel)]="form.endereco.estado"
+              required
+              #estado="ngModel"
+              [ngClass]="{ 'is-invalid': f.submitted && estado.errors }"
+            >
+              <option value="" selected>Selecione</option>
+              <option *ngFor="let estado of estados" [value]="estado">
+                {{ estado }}
+              </option>
+            </select>
+            <label for="floatingEstado">Estado</label>
+            <div *ngIf="estado.errors && f.submitted" class="invalid-feedback">
+              O estado é obrigatório!
+            </div>
+          </div>
+        </div>
+
+        <button
+          class="w-100 btn btn-lg btn-primary mb-2"
+          type="submit"
+          [disabled]="isLoadingSubmit"
+        >
+          <span
+            *ngIf="isLoadingSubmit"
+            class="spinner-border spinner-border-sm me-2"
+            role="status"
+            aria-hidden="true"
+          ></span>
+          {{ isLoadingSubmit ? "Cadastrando..." : "Cadastrar" }}
+        </button>
+        <div class="form-group text-center">
+          <a>Já possui uma conta? </a>
+          <a href="/login" class="text-decoration-none">Login</a>
+        </div>
+        <div class="form-group mb-2">
+          <div
+            *ngIf="f.submitted && isRegistrationFailed"
+            class="alert alert-danger"
+            role="alert"
+          >
+            <div *ngFor="let message of errorMessages">
+              {{ message }}
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

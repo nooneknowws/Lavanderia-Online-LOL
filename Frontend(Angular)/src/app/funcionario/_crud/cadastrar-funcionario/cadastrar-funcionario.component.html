@@ -1,0 +1,61 @@
+    <div class="card mt-4">
+        <div class="card-header-funcionario">
+          <h5 class="mb-0">Cadastro de Funcionário</h5>
+        </div>
+        <div class="card-body">
+            <div class="form-container-funcionario d-flex justify-content-center mt-3">
+                <div class="form-wrapper">
+                    <div *ngIf="isRegistered" class="alert alert-success">
+                        Cadastro realizado com sucesso. A senha foi enviada para o e-mail. <a [routerLink]="['/login']">Voltar</a>.
+                    </div>
+
+                    <form *ngIf="!isRegistered" (ngSubmit)="onSubmit(f)" #f="ngForm">
+                        <div class="input-group mb-2">
+                            <div class="form-floating w-50">
+                                <input type="text" class="form-control" id="floatingNome" placeholder="Nome" name="nome" [(ngModel)]="form.nome" required #nome="ngModel" [ngClass]="{ 'is-invalid': f.submitted && nome.errors }">
+                                <label for="floatingNome">Nome</label>
+                                <div *ngIf="nome.errors && f.submitted" class="invalid-feedback">
+                                    O nome é obrigatório!
+                                </div>
+                            </div>
+                            <div class="form-floating w-50">
+                                <input type="text" class="form-control" id="floatingCpf" placeholder="CPF" name="cpf" [(ngModel)]="form.cpf" mask="000.000.000-00" required #cpf="ngModel" [ngClass]="{ 'is-invalid': f.submitted && cpf.errors }">
+                                <label for="floatingCpf">CPF</label>
+                                <div *ngIf="cpf.errors && f.submitted" class="invalid-feedback">
+                                    O CPF é obrigatório!
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-floating mb-2">
+                            <input type="email" class="form-control" id="floatingEmail" placeholder="nome@exemplo.com" name="email" [(ngModel)]="form.email" required #email="ngModel" [ngClass]="{ 'is-invalid': f.submitted && email.errors }">
+                            <label for="floatingEmail">Email</label>
+                            <div *ngIf="email.errors && f.submitted" class="invalid-feedback">
+                                O email é obrigatório!
+                            </div>
+                        </div>
+
+                        <div class="form-floating mb-2">
+                            <input type="text" class="form-control" id="floatingTelefone" placeholder="Telefone" name="telefone" [(ngModel)]="form.telefone" mask="(00) 00000-0000" required #telefone="ngModel" [ngClass]="{ 'is-invalid': f.submitted && telefone.errors }">
+                            <label for="floatingTelefone">Telefone</label>
+                            <div *ngIf="telefone.errors && f.submitted" class="invalid-feedback">
+                                O telefone é obrigatório!
+                            </div>
+                        </div>
+
+                        <hr class="my-3">
+
+                        <button class="w-100 btn btn-lg btn-primary mb-2" type="submit">Cadastrar</button>
+
+                        <div class="form-group mb-2">
+                            <div *ngIf="f.submitted && isRegistrationFailed" class="alert alert-danger" role="alert">
+                                <div *ngFor="let message of errorMessages">
+                                    {{ message }}
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>

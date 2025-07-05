@@ -1,0 +1,15 @@
+<h2 class="text-center">Extrato de Milhas</h2>
+<div *ngIf="milhas; else noData">
+  <div class="card mt-4">
+    <div class="card-body">
+      <h5 class="card-title">Detalhes das Milhas</h5>
+      <p><strong>Quantidade de Milhas:</strong> {{ milhas.quantidade }}</p>
+      <p><strong>Data/Hora da Última Transação:</strong> {{ milhas.dataHoraTransacao }}</p>
+      <p><strong>Descrição:</strong> {{ milhas.descricao }}</p>
+      <p><strong>Tipo de Transação:</strong> {{ milhas.entradaSaida }}</p>
+    </div>
+  </div>
+</div>
+<ng-template #noData>
+  <p class="text-center mt-4">Nenhuma informação de milhas disponível.</p>
+</ng-template>QA

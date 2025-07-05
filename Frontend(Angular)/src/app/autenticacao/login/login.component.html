@@ -1,0 +1,95 @@
+<div class="background-image">
+  <div class="form-container d-flex justify-content-center">
+    <div class="form-wrapper">
+      <div *ngIf="!isLoggedIn; else loggedInTemplate">
+        <form (ngSubmit)="onSubmit(f)" #f="ngForm" novalidate>
+          <h1 class="h3 mb-3 fw-normal text-center">Entrar</h1>
+
+          <div class="form-floating mb-3">
+            <input
+              type="email"
+              class="form-control"
+              id="floatingInput"
+              placeholder="name@example.com"
+              name="email"
+              [(ngModel)]="form.email"
+              required
+              #email="ngModel"
+              [ngClass]="{ 'is-invalid': f.submitted && email.errors }"
+              [disabled]="isLoading"
+            />
+            <label for="floatingInput">Email</label>
+            <div *ngIf="email.errors && f.submitted" class="invalid-feedback">
+              Email é necessário!
+            </div>
+          </div>
+
+          <div class="form-floating mb-3">
+            <input
+              type="password"
+              class="form-control"
+              id="floatingSenha"
+              placeholder="Senha"
+              name="senha"
+              [(ngModel)]="form.senha"
+              required
+              minlength="4"
+              #senha="ngModel"
+              [ngClass]="{ 'is-invalid': f.submitted && senha.errors }"
+              [disabled]="isLoading"
+            />
+            <label for="floatingSenha">Senha</label>
+            <div *ngIf="senha.errors && f.submitted" class="invalid-feedback">
+              <div *ngIf="senha.errors['required']">Digite uma senha.</div>
+              <div *ngIf="senha.errors['minlength']">
+                A senha deve ter pelo menos 4 caracteres.
+              </div>
+            </div>
+          </div>
+
+          <button
+            class="w-100 btn btn-lg btn-primary mb-3"
+            type="submit"
+            [disabled]="isLoading"
+          >
+            <span
+              *ngIf="isLoading"
+              class="spinner-border spinner-border-sm me-2"
+              role="status"
+              aria-hidden="true"
+            ></span>
+            {{ isLoading ? "Entrando..." : "Entrar" }}
+          </button>
+
+          <div class="form-group text-center">
+            <a>Não possui uma conta? </a>
+            <a
+              [routerLink]="['/cadastro']"
+              class="text-decoration-none"
+              [class.disabled]="isLoading"
+              [style.pointer-events]="isLoading ? 'none' : 'auto'"
+            >
+              Cadastre-se
+            </a>
+          </div>
+
+          <div class="form-group">
+            <div
+              *ngIf="f.submitted && isLoginFailed"
+              class="alert alert-danger"
+              role="alert"
+            >
+              {{ errorMessage }}
+            </div>
+          </div>
+        </form>
+      </div>
+
+      <ng-template #loggedInTemplate>
+        <div class="alert alert-success text-center">
+          Entrou como {{ user.nome }}.
+        </div>
+      </ng-template>
+    </div>
+  </div>
+</div>

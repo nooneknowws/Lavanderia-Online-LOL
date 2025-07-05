@@ -1,0 +1,6 @@
+input:focus {
+  outline: none;
+  box-shadow: 0 0 5px rgba(93, 104, 206, 0.5);
+  border-color: #6773d6;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}

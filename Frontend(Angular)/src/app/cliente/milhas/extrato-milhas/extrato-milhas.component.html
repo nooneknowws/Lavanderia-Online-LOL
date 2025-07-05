@@ -1,0 +1,40 @@
+<div class="card">
+  <div class="card-header-cliente">
+    <h5 class="mb-0">Extrato de Milhas</h5>
+  </div>
+  <div class="card-body" *ngIf="milhas?.length; else noData">
+    <div class="mb-3">
+      <small class="text-muted">
+        Aqui você pode visualizar seu extrato de milhas, incluindo a quantidade atual de milhas, compras e utilização em voos. A tabela apresenta informações detalhadas sobre cada transação, incluindo data, valor e descrição.
+      </small>
+    </div>
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>Quantidade de Milhas</th>
+          <th>Valor em Reais</th>
+          <th>Data/Hora da Transação</th>
+          <th>Descrição</th>
+          <th>Tipo de Transação</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let milha of milhas">
+          <td>{{ milha.quantidade }}</td>
+          <td>{{ milha.valorEmReais  | currency: 'BRL': 'symbol' }}</td>
+          <td>{{ milha.dataHoraTransacao | date: 'short' }}</td>
+          <td>{{ milha.descricao }}</td>
+          <td>{{ milha.entradaSaida }}</td>
+        </tr>
+        <tr>
+          <td colspan="5">
+            <b>Saldo atual:</b>
+            {{ cliente?.saldoMilhas }} milhas</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+<ng-template #noData>
+  <p class="text-center mt-4">Nenhuma informação de milhas disponível.</p>
+</ng-template>

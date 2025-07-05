@@ -1,0 +1,110 @@
+  <div class="d-flex justify-content-between mb-3">
+    <h2 class="">Bem-vindo, {{ funcionario?.nome }}</h2>
+    <button class="btn btn-sm btn-danger" (click)="logout()"><i class="fa fa-sign-out" aria-hidden="true"></i> Logout</button>
+  </div>
+
+  <div class="row">
+    <div class="col-md-3">
+      <div class="card">
+        <div class="card-header-funcionario">
+          <h5 class="mb-0">Menu</h5>
+        </div>
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item">
+            <h5 class="fw-bold">Voos</h5>
+            <ul class="list-unstyled">
+              <li><a [routerLink]="['/funcionario/cadastrar-voo']" class="nav-link-funcionario"><i class="fa fa-calendar fa-icon"></i> Cadastrar Voo</a></li>
+            </ul>
+          </li>
+          <li class="list-group-item">
+            <h5 class="fw-bold">Funcionários</h5>
+            <ul class="list-unstyled">
+              <li><a [routerLink]="['/funcionario/listar-funcionarios']" class="nav-link-funcionario"><i class="fa fa-address-book" aria-hidden="true"></i> Listar Funcionários</a></li>
+              <li><a [routerLink]="['/funcionario/cadastrar-funcionario']" class="nav-link-funcionario"><i class="fa-solid fa-user-plus"></i> Cadastrar Funcionário</a></li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="col-9">
+      <div *ngIf="voos.length > 0 else vazioTemplate" class="card shadow-sm">
+        <div class="card-header-funcionario">
+          <h5 class="mb-0">Voos nas Próximas 48h</h5>
+        </div>
+        <div class="card-body">
+          <table class="table table-bordered table-hover">
+            <thead class="thead-light">
+              <tr>
+                <th>Código</th>
+                <th>Data/Hora</th>
+                <th>Origem</th>
+                <th>Destino</th>
+                <th>Status</th>
+                <th>Ações</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let voo of voos">
+                <td>#{{ voo.codigoVoo }}</td>
+                <td>{{ voo.dataHoraPartida | date:'dd/MM/yyyy HH:mm' }}</td>
+                <td>
+                  <span class="badge bg-secondary">{{ voo.origem?.codigo }}</span>
+                  {{ voo.origem?.nome }}
+                </td>
+                <td>
+                  <span class="badge bg-primary">{{ voo.destino?.codigo }}</span>
+                  {{ voo.destino?.nome }}
+                </td>
+                <td>
+                  <span class="badge"
+                        [ngClass]="{
+                          'text-bg-success': voo.status === 'Confirmado',
+                          'text-bg-primary': voo.status === 'Embarcado',
+                          'text-bg-secondary': voo.status === 'Realizado',
+                          'text-bg-danger': voo.status === 'Cancelado'
+                        }">
+                    {{ voo.status }}
+                  </span>
+                </td>
+                <td>
+                    <button class="btn btn-sm btn-success"
+                            (click)="confirmarEmbarque(voo)"
+                            *ngIf="voo.status === 'Confirmado'"><i class="fa-regular fa-circle-check"></i>
+                      Confirmar Embarque
+                    </button>
+
+                    <button class="btn btn-sm btn-danger"
+                            (click)="cancelarVoo(voo)"
+                            *ngIf="voo.status === 'Confirmado'"><i class="fa-solid fa-xmark"></i>
+                      Cancelar Voo
+                    </button>
+
+                    <button class="btn btn-sm btn-info"
+                            (click)="realizarVoo(voo)"
+                            *ngIf="voo.status === 'Confirmado'"><i class="fa-solid fa-check"></i>
+                      Realizar Voo
+                    </button>
+
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <ng-template #vazioTemplate>
+        <div class="card">
+          <div class="card-header-funcionario">
+            Voos
+          </div>
+          <div class="card-body">
+            <div class="mb-3">
+              <small class="text-muted">
+                Não há voos cadastrados.
+              </small>
+            </div>
+          </div>
+        </div>
+      </ng-template>
+    </div>
+  </div>

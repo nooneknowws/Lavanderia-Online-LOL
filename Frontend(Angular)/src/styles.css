@@ -1,0 +1,186 @@
+@import '@fortawesome/fontawesome-free/css/all.min.css';
+
+* {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+  vertical-align: baseline;
+}
+
+input, textarea, select, option, label, p, span, div, h1, h2, h3, h4, h5, h6, button, a {
+  font-family: Georgia, "Times New Roman", Times, serif !important;
+}
+
+body {
+  background-color: #F2F4F5;
+  color: #0B2233;
+}
+
+.container-cliente {
+  background-color: #edecf5;
+  padding: 2.5em;
+  border-radius: 8px;
+}
+
+.container-funcionario {
+  background-color: #EBF1FF;
+  padding: 2.5em;
+  border-radius: 8px;
+}
+
+.back {
+  text-decoration: none;
+  margin-bottom: 1em !important;
+}
+
+i {
+  margin-right: 1em !important;
+  padding: 0.33em !important;
+  width: 0.75em;
+  height: auto;
+}
+
+.btn:not(.input-group .btn) {
+  border-radius: 2em !important;
+  font-weight: bold !important;
+  padding-right: 1em !important;
+}
+
+.navbar {
+  background-color: #f8f9fa;
+  font-weight: bold;
+  font-family: Georgia, 'Times New Roman', Times, serif;
+}
+
+.navbar-nav {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+}
+
+.navbar-nav .nav-item .nav-link {
+  border-radius: 8px;
+  justify-content: space-evenly;
+  color: #5d68ce;
+  padding: 0.5rem 1rem;
+  font-size: 1rem;
+  font-weight: 500;
+  transition: color 0.3s ease, background-color 0.3s ease;
+  display: flex;
+  align-items: center;
+  width: 160px;
+}
+
+.navbar-nav .nav-item .nav-link .icon {
+  margin-right: 0.5rem;
+  font-size: 1.2rem;
+}
+
+.navbar-nav .nav-item .nav-link:hover {
+  color: #fff;
+  background-color: #7482fd;
+  border-radius: 8px;
+}
+
+
+.dropdown-menu {
+  border-radius: 8px;
+  padding: 0;
+}
+
+.dropdown-item:hover {
+  color: #fff;
+  background-color: #5d68ce;
+  border-radius: 8px;
+}
+
+.navbar-toggler {
+  border: none;
+  outline: none;
+}
+
+.navbar-toggler:hover {
+  background-color: rgba(0, 123, 255, 0.1);
+}
+
+.navbar-brand {
+  display: flex;
+  align-items: center;
+  font-size: 1.2rem;
+}
+
+.btn-conf {
+  background-color: #7482fd;
+  color: white;
+  border-color: #5d68ce;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.btn-conf:hover {
+  background-color: #5e6df0;
+  color: white;
+  border-color: #5e6df0;
+  transform: scale(1.05);
+}
+
+
+.selectStyle {
+  border-color: #5d68ce;
+}
+
+
+.card {
+  margin-top: 0.4em !important;
+  border-radius: 10px !important;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1) !important;
+  border: none !important;
+  margin-bottom: 30px !important;
+}
+
+.card-round {
+  border-radius: 10em !important;
+  margin-bottom: 0;
+}
+
+.card .nav-link-cliente {
+  color: #7482fd;
+  text-decoration: none;
+}
+
+.card .nav-link-funcionario {
+  color: #2062FE;
+  text-decoration: none;
+}
+
+.card-header-cliente {
+  background-color: #7784ff !important;
+  color: white !important;
+  padding: 0.5em !important;
+  border-radius: 0.25em 0.25em 0 0 !important;
+  font-size: 18px;
+}
+
+.card-header-funcionario {
+  background-color: #2062FE !important;
+  color: white !important;
+  padding: 0.5em !important;
+  border-radius: 0.25em 0.25em 0 0 !important;
+  font-size: 18px;
+}
+
+.card-header h5 {
+  font-weight: bold !important;
+}
+
+.card-title {
+  font-size: 1.5rem;
+  color: #001aff88;
+  margin-bottom: 20px;
+}
+
+button:focus {
+  outline: none;
+  box-shadow: none;
+}
+

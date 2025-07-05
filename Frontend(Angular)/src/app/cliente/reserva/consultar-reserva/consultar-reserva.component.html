@@ -1,0 +1,73 @@
+  <div class="card" *ngIf="reserva?.status != e.PENDENTE">
+    <div class="card-header-cliente">
+      <h5 class="mb-0">Consultar Reserva</h5>
+    </div>
+    <div class="card-body">
+      <div class="mb-3">
+        <small class="text-muted">Digite o código de reserva para visualizar os detalhes da sua reserva, incluindo data/hora, origem, destino, valor gasto e milhas utilizadas. Além disso, você pode verificar o estado atual do voo e realizar ações adicionais, como fazer check-in (se o voo estiver nas próximas 48 horas) ou cancelar a reserva.</small>
+      </div>
+      <label for="codigoReserva" class="form-label">Código da reserva:</label>
+      <div class="input-group">
+        <input type="text" class="form-control selectStyle" id="codigoReserva" [(ngModel)]="codigoReservaInput" placeholder="Ex: 1">
+        <button type="button" class="btn btn-primary btn-conf" (click)="getReserva(codigoReservaInput)">Consultar</button>
+      </div>
+    </div>
+  </div>
+  
+  <div *ngIf="reserva" class="card shadow-sm">
+    <div class="card-header-cliente">
+        <h5 class="mb-0">Reserva #{{ reserva.id }}</h5>
+        <span class="ms-1 badge"
+        [ngClass]="{
+          'text-bg-secondary': reserva.status === e.PENDENTE,
+          'text-bg-success': reserva.status === e.CONFIRMADO,
+          'text-bg-danger': reserva.status === e.CANCELADO,
+          'text-bg-info': reserva.status === e.EMBARCADO
+        }">
+        {{ reserva.status }}
+        </span>
+    </div>
+    <div class="card-body">
+        <p><strong>Data/Hora:</strong> {{ reserva.dataHora | date:'dd/MM/yyyy HH:mm' }}</p>
+
+        <table class="table table-sm table-striped">
+            <thead>
+                <th>Origem</th>
+                <th>Destino</th>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <span class="badge bg-secondary text-light">{{ reserva.aeroportoOrigem.codigo }}</span>
+                        {{ reserva.aeroportoOrigem.nome }}
+                    </td>
+                    <td>
+                        <span class="badge bg-primary text-light">{{ reserva.aeroportoDestino.codigo }}</span>
+                        {{ reserva.aeroportoDestino.nome }}
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        {{ reserva.aeroportoOrigem.cidade }}, {{ reserva.aeroportoOrigem.estado }}, {{ reserva.aeroportoOrigem.pais }}
+                    </td>
+                    <td>
+                        {{ reserva.aeroportoDestino.cidade }}, {{ reserva.aeroportoDestino.estado }}, {{ reserva.aeroportoDestino.pais }}
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <p><strong>Valor:</strong> {{ reserva.valor | currency:'BRL':'symbol' }}</p>
+        <p><strong>Milhas gastas:</strong> {{ reserva.milhas }}</p>
+
+        <div *ngIf="reserva?.status === e.PENDENTE" class="mb-3">
+          <small class="text-muted">
+            A reserva está no estado PENDENTE. Você pode cancelar a reserva ou confirmar o check-in.
+          </small>
+        </div>
+        <div class="d-flex justify-content-evenly">
+            <button class="btn btn-danger col-4" (click)="cancelarReserva(reserva!)">Cancelar Reserva</button>
+            <button class="btn btn-success col-4" (click)="fazerCheckin()">Fazer Check-in</button>
+        </div>
+    </div>
+</div>

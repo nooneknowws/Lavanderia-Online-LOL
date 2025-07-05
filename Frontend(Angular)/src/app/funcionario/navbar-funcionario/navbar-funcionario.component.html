@@ -1,0 +1,45 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-light p-2">
+    <a class="navbar-brand" href="/funcionario"> <i class="fas fa-plane"></i> Fly High </a>
+    <button
+      class="navbar-toggler"
+      type="button"
+      data-toggle="collapse"
+      data-target="#navbarNav"
+      aria-controls="navbarNav"
+      aria-expanded="false"
+      aria-label="Toggle navigation"
+    >
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav">
+
+        <ng-container>
+          <li class="nav-item active">
+            <a class="nav-link" routerLink="/funcionario">
+              <i class="fas fa-home icon"></i> Home
+            </a>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+              <i class="fa-solid fa-users"></i> Funcionários
+            </a>
+            <ul class="dropdown-menu">
+              <li><a class="dropdown-item" routerLink="/funcionario/listar-funcionarios">Listar funcionários</a></li>
+              <li><a class="dropdown-item" routerLink="/funcionario/cadastrar-funcionario">Cadastrar funcionário</a></li>
+            </ul>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+              <i class="fas fa-plane-departure icon"></i> Voos
+            </a>
+            <ul class="dropdown-menu">
+              <li><a class="dropdown-item" routerLink="/funcionario/cadastrar-voo">Cadastrar voo</a></li>
+              <li><a class="dropdown-item" routerLink="/funcionario/cancelar-voo/0">Cancelar voo</a></li>
+              <li><a class="dropdown-item" routerLink="/funcionario/realizar-voo/0">Realizar voo</a></li>
+            </ul>
+          </li>
+        </ng-container>
+      </ul>
+    </div>
+  </nav>
